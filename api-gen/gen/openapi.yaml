@@ -1,0 +1,154 @@
+openapi: 3.0.1
+info:
+  title: Bookshop API
+  contact:
+    name: Pawel
+    email: s27433@pjwstk.edu.pl
+  license:
+    name: Apache 2.0
+    url: http://springdoc.org
+  version: '1.0'
+servers:
+  - url: http://localhost:8088
+    description: Generated server url
+paths:
+  /books/buy:
+    post:
+      tags:
+        - book-shop-controller
+      operationId: buyBook
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /books:
+    get:
+      tags:
+        - book-shop-controller
+      operationId: getAllBooks
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+  /books/{id}:
+    get:
+      tags:
+        - book-shop-controller
+      operationId: getBookById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BookDTO'
+  /books/title:
+    get:
+      tags:
+        - book-shop-controller
+      operationId: getBooksByTitle
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+  /books/author:
+    get:
+      tags:
+        - book-shop-controller
+      operationId: getBooksByAuthor
+      parameters:
+        - name: author
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        genre:
+          type: string
+        price:
+          type: number
+          format: double
+        pageCount:
+          type: integer
+          format: int32
+        visitCount:
+          type: integer
+          format: int32
+        stock:
+          type: integer
+          format: int32
+        author:
+          $ref: '#/components/schemas/Author'
+        available:
+          type: boolean
+    BookDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        author:
+          type: string
+        price:
+          type: number
+          format: double
